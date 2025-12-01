@@ -7,43 +7,49 @@ const images = [
   "https://picsum.photos/id/242/600/600"
 ];
 
+const loremTitle = "Lorem ipsum dolor sit amet";
+const loremText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+
 function renderGrid() {
-  const content = document.getElementById("content");
-  content.innerHTML = `
-    <div class="row g-2">
-      ${images
-        .map(
-          (url, i) => `
-        <div class="col-4">
-          <img src="${url}" class="feed-img" alt="img-${i}">
+  document.getElementById("content").innerHTML = `
+    <div class="row row-cols-3 g-2 g-md-3 justify-content-center">
+      ${images.map(url => `
+        <div class="col">
+          <div class="ratio ratio-1x1 shadow-sm overflow-hidden">
+            <img src="${url}" class="img-fluid" style="object-fit:cover;">
+          </div>
         </div>
-      `
-        )
-        .join("")}
+      `).join("")}
     </div>`;
+
+  
+  document.getElementById("gridBtn").style.color = "#0d6efd";
+  document.getElementById("feedBtn").style.color = "";
 }
 
 function renderFeed() {
-  const content = document.getElementById("content");
-  content.innerHTML = images
-    .map(
-      (url, i) => `
-    <div class="post">
-      <div class="post-header">
-      Post #${i + 1}
-    <span style="float:right; color:#555; font-size:0.9rem;">${i + 1}/${images.length}</span>
-    </div>
-      <img src="${url}" class="post-img"/>
-      <div class="post-body">
-        <div class="likes">${Math.floor(Math.random() * 2000)} Likes</div>
-        <div class="caption">Lorem ipsum dolor sit amet.</div>
+  document.getElementById("content").innerHTML = images.map((url, i) => `
+    <div class="card mx-auto mb-5 shadow-sm" style="max-width:520px; overflow:hidden;">
+      <div class="p-3 bg-white border-bottom d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-semibold">${loremTitle}</h5>
+        <small class="text-muted">${String(i+1).padStart(2,'0')}/06</small>
       </div>
-    </div>`
-    )
-    .join("");
+      <div class="ratio ratio-1x1">
+        <img src="${url}" style="object-fit:cover;">
+      </div>
+      <div class="p-4 pt-3">
+        <p class="mb-2 fw-bold">${Math.floor(Math.random() * 1800 + 200)} likes</p>
+        <p class="mb-0">${loremText}</p>
+      </div>
+    </div>
+  `).join("");
+
+  document.getElementById("feedBtn").style.color = "#0d6efd";
+  document.getElementById("gridBtn").style.color = "";
 }
 
-document.getElementById("gridBtn").addEventListener("click", renderGrid);
-document.getElementById("feedBtn").addEventListener("click", renderFeed);
+document.getElementById("gridBtn").onclick = renderGrid;
+document.getElementById("feedBtn").onclick = renderFeed;
 
-renderGrid();
+
+renderGrid(); 
